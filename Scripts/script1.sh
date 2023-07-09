@@ -27,5 +27,5 @@ read -p "Enter the new name: " new_name
 mv -i "$filename" "$new_name"
 echo "File renamed from $filename to $new_name"
 
-Thank You
+//Thank You
 
