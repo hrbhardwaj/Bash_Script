@@ -52,3 +52,32 @@ do
         sudo sh /home/mail.sh "${dept[$index]}_${user[$index]}" "$Password" "${email[$index]}" "${fname[$index]}" "${lname[$index]}"
         echo Mail with Credentials  sent to user
 done
+
+
+
+This Script file is used for sending credientials to user  
+############ Mail.sh ###################################################
+
+#!/bin/bash
+SUBJECT=" Account Creation Successful"
+EMAILMESSAGE="/tmp/emailmessage.txt"
+echo "Dear Student" >$EMAILMESSAGE
+echo ""  >>$EMAILMESSAGE
+echo "Good Day! " >>$EMAILMESSAGE
+echo ""  >>$EMAILMESSAGE
+echo "We have successfully created your user account for ftp and mysql access on developmental LAMP server. You are requested to preserve your credentials." >>$EMAILMESSAGE
+echo ""  >>$EMAILMESSAGE
+echo "IP address to connected Server : 3.6.220.195" >>$EMAILMESSAGE
+echo ""  >>$EMAILMESSAGE
+echo "FTP  and DATABASE SERVER IP ADDRESS" >>$EMAILMESSAGE
+echo ""  >>$EMAILMESSAGE
+echo Username:$1 >>$EMAILMESSAGE
+echo Password:$2 >>$EMAILMESSAGE
+#echo Username:"${user[$index]}"
+#echo Password:"${pass($index]}"
+echo ""  >>$EMAILMESSAGE
+echo "You are requested yo use filezilla FTP client and Mysql workbench for accessing the resources." >>$EMAILMESSAGE
+echo ""  >>$EMAILMESSAGE
+echo "Thankyou" >>$EMAILMESSAGE
+
+mail -H -s "$SUBJECT" "$3" < $EMAILMESSAGE
