@@ -1,0 +1,54 @@
+#!/bin/bash
+
+######## Create CSV file to add user ######################
+#
+#       Format of file:
+#       firstname,lastname,username,password,mailaddress
+#
+#########################################################
+
+userfile="/home/users.csv"
+
+######### CREATE USER########################################################################
+declare -a fname
+declare -a lname
+declare -a user
+declare -a dept
+declare -a email
+
+while IFS=, read -r firstname lastname username course mailaddress;
+do
+        fname+=("$firstname")
+        lname+=("$lastname")
+        user+=("$username")
+        dept+=("$course")
+        email+=("$mailaddress")
+
+done<$userfile
+#       Password=`< /dev/urandom tr -dc _A-Z-a-z-0-9\%\&\*\$\#\@\! | head -c${1:-16};echo;`
+
+for index in "${!user[@]}";
+do
+        Password=`< /dev/urandom tr -dc _A-Z-a-z-0-9\$\@ | head -c${1:-8};echo;`
+        mkdir /home/ftp/${dept[$index]}_${user[$index]}
+        sudo useradd -m  ${dept[$index]}${user[$index]} -g ftpusers -d /home/ftp/${dept[$index]}${user[$index]}/public_html
+        echo "${dept[$index]}_${user[$index]}:$Password" | sudo chpasswd
+        sudo chmod 755 /home/ftp/${dept[$index]}_${user[$index]}
+        sudo chmod 700 /home/ftp/${dept[$index]}_${user[$index]}/public_html
+        echo User created successfully.
+###############Entry in VSFTPD User List ###############################################################
+
+        sudo echo ${dept[$index]}_${user[$index]} >> /etc/vsftpd.user_list;
+        echo FTP access grant to user successful
+############## Mysql User Creation ##############################################################
+
+        sudo mysql --login-path=local -e "CREATE USER ${dept[$index]}_${user[$index]} IDENTIFIED BY '$Passsword';";
+        sudo mysql --login-path=local -e "CREATE DATABASE ${dept[$index]}_${user[$index]};";
+        sudo mysql --login-path=local -e "GRANT ALL PRIVILEGES on ${dept[$index]}${user[$index]}.* TO '${dept[$index]}${user[$index]}'@'%';";
+        sudo mysql --login-path=local -e "FLUSH PRIVILEGES;";
+        echo Created Mysql user and databse successfully and remote access granted to user.
+################# Mail Script Execution ############################################################
+
+        sudo sh /home/mail.sh "${dept[$index]}_${user[$index]}" "$Password" "${email[$index]}" "${fname[$index]}" "${lname[$index]}"
+        echo Mail with Credentials  sent to user
+done
