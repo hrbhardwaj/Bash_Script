@@ -14,10 +14,9 @@ Format of file:
 
 
 
-## Scripts Folder :
+## Scripts Folder : Thier are 5 files
 
-# Thier are 5 files
-
+ 
 # Script :       
 Example 1: Rename a directory
   
