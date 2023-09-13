@@ -14,10 +14,10 @@ Format of file:
 
 
 
-## Scripts Folder : Thier are 5 files
+## Scripts Folder : 
 
  
-# Script :       
+# Script 1:       
 Example 1: Rename a directory
   
 Example 2: Rename a file with a different extension
