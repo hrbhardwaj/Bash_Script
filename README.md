@@ -18,7 +18,7 @@ Scripts Folder :
 
 * Thier are 5 files
 
-  * Script :     Example 1: Rename a directory
+Script :       Example 1: Rename a directory
   
                Example 2: Rename a file with a different extension
   
