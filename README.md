@@ -1,9 +1,9 @@
 # Devops
 
 
-In This Create User with Permission we Create a CSV file to user :
+In This Create User with Permission file :
 
 Format of file:
-firstname,lastname,username,password,mailaddress
+* firstname,lastname,username,password,mailaddress
 
 
